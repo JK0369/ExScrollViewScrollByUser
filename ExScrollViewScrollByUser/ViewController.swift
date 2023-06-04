@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     }()
     
     private let items = (1...50).map(String.init)
+    var scrolledByUser = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +84,16 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset)
-        label.text = "\(scrollView.contentOffset)"
+        let prefix = scrolledByUser ? "byUser, " : "byCode, "
+        print(scrolledByUser)
+        label.text = prefix + "\(scrollView.contentOffset)"
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrolledByUser = true
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrolledByUser = false
     }
 }
